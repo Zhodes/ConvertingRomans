@@ -13,20 +13,23 @@
                 return input;
             }
 
-            static string[] ReadingRomans(int numberOfLines)
+            static void ReadingRomans(int numberOfLines)
             {
 
-                string[] romanValues = new string[numberOfLines];
+                int[] arabicValues = new int[numberOfLines];
                 for (int i = 0; i < numberOfLines; i++)
                 {
-                    romanValues[i] = Console.ReadLine();
+                    arabicValues[i] = RomanNumberToArabic2(Console.ReadLine());
 
                 }
 
-                return romanValues;
+                for (int i = 0;i < arabicValues.Length; i++)
+                {
+                    Console.WriteLine(arabicValues[i]);
+                }
             }
 
-            static string[] RomanNumbersToArabic(string[] romanNumbers)
+            /*static string[] RomanNumbersToArabic(string[] romanNumbers)
             {
                 string[] arabicNumbers = new string[romanNumbers.Length];
                 for (int i = 0;i < romanNumbers.Length;i++)
@@ -35,11 +38,11 @@
                 }
                 return arabicNumbers;
 
-            }
+            }*/
 
             //static void ConvertingRomans(string[] romanValues) { }
 
-            static string RomanNumberToArabic(string romanNumber)
+            static int RomanNumberToArabic(string romanNumber)
             {
                 Dictionary<char, int> RomanArabicDict = new Dictionary<char, int>();
                 RomanArabicDict.Add('I', 1);
@@ -49,6 +52,15 @@
                 RomanArabicDict.Add('C', 100);
                 RomanArabicDict.Add('D', 500);
                 RomanArabicDict.Add('M', 1000);
+                int[] romanNumberArray = new int[romanNumber.Length];
+
+                for (int i = 0; i < romanNumber.Length; i++)
+                {
+                    romanNumberArray[i] = RomanArabicDict[romanNumber[i]];
+                }
+
+
+                
                 int arabicNumber = 0;
 
                 for (int i = 0; i < romanNumber.Length; i++)
@@ -61,8 +73,10 @@
                     {
                         arabicNumber -= RomanArabicDict[romanNumber[i].ToString()];
                     }*/
-                    int valueToSubtract = RomanArabicDict[romanNumber[i]];
-                    int valueToAdd = RomanArabicDict[romanNumber[i]];
+
+
+                    int valueToSubtract = romanNumberArray[i];
+                    int valueToAdd = romanNumberArray[i];
                     int moveiTo = i;
                     if (i != romanNumber.Length - 1)
                     {
@@ -71,14 +85,14 @@
                         for (int j = i + 1; j < romanNumber.Length; j++)
                         {
 
-                            if (RomanArabicDict[romanNumber[i]] != RomanArabicDict[romanNumber[j]]) repeatingNumber = false;
+                            if (romanNumberArray[i] != romanNumberArray[j]) repeatingNumber = false;
                             if (repeatingNumber)
                             {
-                                valueToAdd += RomanArabicDict[romanNumber[j]]; 
+                                valueToAdd += romanNumberArray[j]; 
                                 moveiTo = j;
                             }
                             
-                            if (RomanArabicDict[romanNumber[i]] < RomanArabicDict[romanNumber[j]])
+                            if (romanNumberArray[i] < RomanArabicDict[romanNumber[j]])
                             {
 
                                 arabicNumber -= valueToSubtract;
@@ -87,7 +101,7 @@
                                 break;
                             }
 
-                            valueToSubtract += RomanArabicDict[romanNumber[j]];
+                            valueToSubtract += romanNumberArray[j];
 
 
 
@@ -107,20 +121,60 @@
 
 
                 }
-                return arabicNumber.ToString();
+                return arabicNumber;
             }
 
-            static void WritingArabic(string[] arabicNumbers)
+            static int RomanNumberToArabic2(string romanNumber)
+            {
+                Dictionary<char, int> RomanArabicDict = new Dictionary<char, int>();
+                RomanArabicDict.Add('I', 1);
+                RomanArabicDict.Add('V', 5);
+                RomanArabicDict.Add('X', 10);
+                RomanArabicDict.Add('L', 50);
+                RomanArabicDict.Add('C', 100);
+                RomanArabicDict.Add('D', 500);
+                RomanArabicDict.Add('M', 1000);
+                int[] romanNumberArray = new int[romanNumber.Length];
+
+                for (int i = 0; i < romanNumber.Length; i++)
+                {
+                    romanNumberArray[i] = RomanArabicDict[romanNumber[i]];
+                }
+
+                int arabicNumber = 0;
+                int largestRomanNumber = 0;
+                for (int i = romanNumberArray.Length-1; i >=0 ; i--)
+                {
+                    if (romanNumberArray[i] > largestRomanNumber)
+                    {
+                        arabicNumber += romanNumberArray [i];
+                        largestRomanNumber = romanNumberArray[i];
+                    }
+                    else if (romanNumberArray[i] < largestRomanNumber)
+                    {
+                        arabicNumber -= romanNumberArray[i];
+                    }
+                    else
+                    {
+                        arabicNumber += romanNumberArray[i];
+                    }
+
+                } 
+
+                return arabicNumber;
+            }
+
+            /*static void WritingArabic(string[] arabicNumbers)
             {
                 foreach (string arabicNumber in arabicNumbers)
                 {
                     Console.WriteLine(arabicNumber);
                 }
-            }
+            }*/
 
             static void ConvertingRomans()
             {
-                WritingArabic(RomanNumbersToArabic(ReadingRomans(NumberOfRomans())));
+                ReadingRomans(NumberOfRomans());
             }
 
             ConvertingRomans();
