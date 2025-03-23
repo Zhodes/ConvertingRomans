@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
 
-
+            //Läser ett konsol input och översätter det till en int
             static int NumberOfRomans()
             {
 
@@ -13,13 +13,17 @@
                 return input;
             }
 
+            //tar emot ett värde i form av en int, denna siffra avgör hur många nummer som ska översättas.
+            //Sedan ber den om input från användaren like många gånger som som inputet. 
+            //varje gång användaren ger ett input översätts det av funktionen RomanNumberToArabic och det arabiska numret sparas i arabicValues.
+            // Efter det skriver funktionen ut det arabiska värdena till konsollen.
             static void ReadingRomans(int numberOfLines)
             {
 
                 int[] arabicValues = new int[numberOfLines];
                 for (int i = 0; i < numberOfLines; i++)
                 {
-                    arabicValues[i] = RomanNumberToArabic2(Console.ReadLine());
+                    arabicValues[i] = RomanNumberToArabic(Console.ReadLine());
 
                 }
 
@@ -29,21 +33,11 @@
                 }
             }
 
-            /*static string[] RomanNumbersToArabic(string[] romanNumbers)
-            {
-                string[] arabicNumbers = new string[romanNumbers.Length];
-                for (int i = 0;i < romanNumbers.Length;i++)
-                {
-                    arabicNumbers[i] = RomanNumberToArabic(romanNumbers[i]);
-                }
-                return arabicNumbers;
-
-            }*/
-
-            //static void ConvertingRomans(string[] romanValues) { }
-
+            //Tar emot ett invärde i form av en sträng som ska motvara ett romersk nummer. 
+            //Returnerar en int som är den Arabiska motsvarigheten till det Romerska nummret.
             static int RomanNumberToArabic(string romanNumber)
             {
+                //Ett dictionary som används för att översätta romerska siffror till arabiska.
                 Dictionary<char, int> RomanArabicDict = new Dictionary<char, int>();
                 RomanArabicDict.Add('I', 1);
                 RomanArabicDict.Add('V', 5);
@@ -54,95 +48,21 @@
                 RomanArabicDict.Add('M', 1000);
                 int[] romanNumberArray = new int[romanNumber.Length];
 
+                //ett array med de enskilda siffrorna i det romerska nummret översatta till arabiska. 
                 for (int i = 0; i < romanNumber.Length; i++)
                 {
                     romanNumberArray[i] = RomanArabicDict[romanNumber[i]];
                 }
 
-
-                
+                //detta nummer är det som kommer bli vårt slutgiltiga arabiska nummer
                 int arabicNumber = 0;
-
-                for (int i = 0; i < romanNumber.Length; i++)
-                {
-                    /*if ((i == romanNumber.Length - 1) || (RomanArabicDict[romanNumber[i].ToString()] >= RomanArabicDict[romanNumber[i + 1].ToString()]))
-                    {
-                        arabicNumber += RomanArabicDict[romanNumber[i].ToString()];
-                    }
-                    else
-                    {
-                        arabicNumber -= RomanArabicDict[romanNumber[i].ToString()];
-                    }*/
-
-
-                    int valueToSubtract = romanNumberArray[i];
-                    int valueToAdd = romanNumberArray[i];
-                    int moveiTo = i;
-                    if (i != romanNumber.Length - 1)
-                    {
-                        bool repeatingNumber = true;
-                        bool arabicNumberUpdated = false;
-                        for (int j = i + 1; j < romanNumber.Length; j++)
-                        {
-
-                            if (romanNumberArray[i] != romanNumberArray[j]) repeatingNumber = false;
-                            if (repeatingNumber)
-                            {
-                                valueToAdd += romanNumberArray[j]; 
-                                moveiTo = j;
-                            }
-                            
-                            if (romanNumberArray[i] < RomanArabicDict[romanNumber[j]])
-                            {
-
-                                arabicNumber -= valueToSubtract;
-                                arabicNumberUpdated = true;
-                                moveiTo = j-1;
-                                break;
-                            }
-
-                            valueToSubtract += romanNumberArray[j];
-
-
-
-                        }
-                        if (arabicNumberUpdated) {
-                            i = moveiTo;
-                            continue; }
-                        else {
-                            arabicNumber += valueToAdd;
-                            i = moveiTo;
-                            continue;
-                        }
-                            
-
-                    }
-                    arabicNumber += valueToAdd;
-
-
-                }
-                return arabicNumber;
-            }
-
-            static int RomanNumberToArabic2(string romanNumber)
-            {
-                Dictionary<char, int> RomanArabicDict = new Dictionary<char, int>();
-                RomanArabicDict.Add('I', 1);
-                RomanArabicDict.Add('V', 5);
-                RomanArabicDict.Add('X', 10);
-                RomanArabicDict.Add('L', 50);
-                RomanArabicDict.Add('C', 100);
-                RomanArabicDict.Add('D', 500);
-                RomanArabicDict.Add('M', 1000);
-                int[] romanNumberArray = new int[romanNumber.Length];
-
-                for (int i = 0; i < romanNumber.Length; i++)
-                {
-                    romanNumberArray[i] = RomanArabicDict[romanNumber[i]];
-                }
-
-                int arabicNumber = 0;
+                //den största romerska siffran i nummret. 
                 int largestRomanNumber = 0;
+
+                //en for loop som går igenom det romerska nummret i omvänd ordning och börjar med den sista siffran.
+                //Om siffran i är större än largestRomanNumber sätts largestRomanNumber = i och i adderas till arabicNumber.
+                //Om i är mindre än largestRomanNumber subtraheras den från arabicNumber.
+                //Annars adderas den till arabicNumber, vilket bara inträffar när i är lika med largestRomanNumber. 
                 for (int i = romanNumberArray.Length-1; i >=0 ; i--)
                 {
                     if (romanNumberArray[i] > largestRomanNumber)
@@ -164,14 +84,9 @@
                 return arabicNumber;
             }
 
-            /*static void WritingArabic(string[] arabicNumbers)
-            {
-                foreach (string arabicNumber in arabicNumbers)
-                {
-                    Console.WriteLine(arabicNumber);
-                }
-            }*/
 
+
+            //anroppar ReadingRomans med funktionen NumberOfRomans som invärde
             static void ConvertingRomans()
             {
                 ReadingRomans(NumberOfRomans());
@@ -179,9 +94,5 @@
 
             ConvertingRomans();
         }
-
-
-        //Console.WriteLine(ReadingRomans(NumberOfRomans()));
-
     }
 }
