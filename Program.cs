@@ -5,7 +5,7 @@
         static void Main(string[] args)
         {
 
-            //Läser ett konsol input och översätter det till en int
+            //Läser ett konsol input och översätter det till en int.
             static int NumberOfRomans()
             {
 
