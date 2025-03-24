@@ -4,6 +4,10 @@
     {
         static void Main(string[] args)
         {
+            //avkommentera på kattis
+            //using System;
+            //using System.Collections.Generic;
+
 
             //Läser ett konsol input och översätter det till en int.
             static int NumberOfRomans()
